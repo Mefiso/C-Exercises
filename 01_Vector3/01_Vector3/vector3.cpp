@@ -40,8 +40,6 @@ double Vec3<T>::distance_to(const Vec3<T>& v) const
 {
 	T diff[3] = { v.x(), v.y(), v.z()};
 	double sum = 0.;
-	int i = 0;
-	
 	for (auto [it, i] = std::tuple{ this->components.begin(), 0 }; it != this->components.end(); ++it, ++i) {
 		diff[i] -= (*it);
 		sum += diff[i] * diff[i];
@@ -55,7 +53,6 @@ T Vec3<T>::dot_product(const Vec3<T>& v) const
 {
 	T diff[3] = { v.x(), v.y(), v.z() };
 	T result = 0;
-	int i = 0;
 	for (auto [it, i] = std::tuple{ this->components.begin(), 0 }; it != this->components.end(); ++it, ++i)
 		result += (*it) * diff[i];
 	
