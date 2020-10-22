@@ -85,9 +85,5 @@ inline double Vec3<T>::length() const
 template<class T>
 Vec3<T> Vec3<T>::operator+(const Vec3<T>& v)
 {
-	T sum[3] = { v.x(), v.y(), v.z() };
-	for (auto [it, i] = std::tuple{ this->components.begin(), 0 }; it != this->components.end(); ++it, ++i)
-		sum[i] += (*it);
-
-	return Vec3<T>(sum[0], sum[1], sum[2]);
+	return Vec3<T>(this->x() + v.x(), this->y() + v.y(), this->z() + v.z());
 }
