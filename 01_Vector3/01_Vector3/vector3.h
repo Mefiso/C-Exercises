@@ -29,6 +29,9 @@ public:
 	inline void set_y(const T y) { components.insert(components.begin() + 1, y); }
 	inline void set_z(const T z) { components.insert(components.begin() + 2, z); }
 
+	// Operator overload
+	Vec3<T> operator+ (const Vec3<T>& v);
+
 private:
 	std::vector<T> components;
 };
