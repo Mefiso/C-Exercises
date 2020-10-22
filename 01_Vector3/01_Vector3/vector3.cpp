@@ -2,43 +2,63 @@
 #include<tuple>
 #include "vector3.h"
 
-template <class T>
-Vec3<T>::Vec3() : components(3) {}
 
-template<class T>
-Vec3<T>::Vec3(T x, T y, T z)
+Vec3<int>::Vec3() : components(3) {}
+Vec3<float>::Vec3() : components(3) {}
+
+Vec3<int>::Vec3(int x, int y, int z)
+{
+	components.push_back(x);
+	components.push_back(y);
+	components.push_back(z);
+}
+Vec3<float>::Vec3(float x, float y, float z)
 {
 	components.push_back(x);
 	components.push_back(y);
 	components.push_back(z);
 }
 
-template<class T>
-Vec3<T>::Vec3(const Vec3& v) 
+Vec3<int>::Vec3(const Vec3& v) 
+{
+	components.push_back(v.x());
+	components.push_back(v.y());
+	components.push_back(v.z());
+}
+Vec3<float>::Vec3(const Vec3& v)
 {
 	components.push_back(v.x());
 	components.push_back(v.y());
 	components.push_back(v.z());
 }
 
-template<class T>
-Vec3<T>::~Vec3()
+
+Vec3<int>::~Vec3()
+{
+	components.clear();
+}
+Vec3<float>::~Vec3()
 {
 	components.clear();
 }
 
-template<class T>
-void Vec3<T>::Normalize()
+void Vec3<int>::Normalize()
+{
+	double l = this->length();
+	for (auto it = this->components.begin(); it != this->components.end(); ++it)
+		(*it) = (*it) / l;
+}
+void Vec3<float>::Normalize()
 {
 	double l = this->length();
 	for (auto it = this->components.begin(); it != this->components.end(); ++it)
 		(*it) = (*it) / l;
 }
 
-template<class T>
-double Vec3<T>::distance_to(const Vec3<T>& v) const
+
+double Vec3<int>::distance_to(const Vec3<int>& v) const
 {
-	T diff[3] = { v.x(), v.y(), v.z()};
+	int diff[3] = { v.x(), v.y(), v.z()};
 	double sum = 0.;
 	int i = 0;
 	
@@ -50,12 +70,25 @@ double Vec3<T>::distance_to(const Vec3<T>& v) const
 
 	return sqrt(sum);
 }
-
-template<class T>
-T Vec3<T>::dot_product(const Vec3<T>& v) const
+double Vec3<float>::distance_to(const Vec3<float>& v) const
 {
-	T diff[3] = { v.x(), v.y(), v.z() };
-	T result = 0;
+	float diff[3] = { v.x(), v.y(), v.z() };
+	double sum = 0.;
+	int i = 0;
+
+	for (auto it = this->components.begin(); it != this->components.end(); ++it) {
+		diff[i] = diff[i] - (*it);
+		sum += diff[i] * diff[i];
+		++i;
+	}
+
+	return sqrt(sum);
+}
+
+int Vec3<int>::dot_product(const Vec3<int>& v) const
+{
+	int diff[3] = { v.x(), v.y(), v.z() };
+	int result = 0;
 	int i = 0;
 	for (auto it = this->components.begin(); it != this->components.end(); ++it) {
 		result += (*it) * diff[i];
@@ -64,36 +97,60 @@ T Vec3<T>::dot_product(const Vec3<T>& v) const
 	
 	return result;
 }
-
-template<class T>
-Vec3<T> Vec3<T>::cross_product(const Vec3<T>& v) const
+float Vec3<float>::dot_product(const Vec3<float>& v) const
 {
-	return Vec3<T>(this->y() * v.z() - this->z() * v.y(),
+	float diff[3] = { v.x(), v.y(), v.z() };
+	float result = 0;
+	int i = 0;
+	for (auto it = this->components.begin(); it != this->components.end(); ++it) {
+		result += (*it) * diff[i];
+		++i;
+	}
+
+	return result;
+}
+
+Vec3<int> Vec3<int>::cross_product(const Vec3<int>& v) const
+{
+	return Vec3<int>(this->y() * v.z() - this->z() * v.y(),
 					this->z() * v.x() - this->x() * v.z(),
 					this->x() * v.y() - this->y() * v.x());
 }
-
-template<class T>
-double Vec3<T>::angle_between(const Vec3<T>& v) const
+Vec3<float> Vec3<float>::cross_product(const Vec3<float>& v) const
 {
-	const T dot_p = this->dot_product(v);
+	return Vec3<float>(this->y() * v.z() - this->z() * v.y(),
+		this->z() * v.x() - this->x() * v.z(),
+		this->x() * v.y() - this->y() * v.x());
+}
+
+double Vec3<float>::angle_between(const Vec3<float>& v) const
+{
+	const float dot_p = this->dot_product(v);
 	const double cosinus = dot_p / (this->length() * v.length());
 	
 	return (180*acos(cosinus)/ 3.1416);
 }
-
-template<class T>
-inline double Vec3<T>::length() const
+double Vec3<int>::angle_between(const Vec3<int>& v) const
 {
-	return sqrt((double) this->dot_product(*this));
+	const int dot_p = this->dot_product(v);
+	const double cosinus = dot_p / (this->length() * v.length());
+
+	return (180 * acos(cosinus) / 3.1416);
 }
 
-template<class T>
-Vec3<T> Vec3<T>::operator+(const Vec3<T>& v)
+Vec3<int> Vec3<int>::operator+(const Vec3<int>& v)
 {
-	T sum[3] = { v.x(), v.y(), v.z() };
+	int sum[3] = { v.x(), v.y(), v.z() };
 	for (auto [it, i] = std::tuple{ this->components.begin(), 0 }; it != this->components.end(); ++it, ++i)
 		sum[i] += (*it);
 
-	return Vec3<T>(sum[0], sum[1], sum[2]);
+	return Vec3<int>(sum[0], sum[1], sum[2]);
+}
+Vec3<float> Vec3<float>::operator+(const Vec3<float>& v)
+{
+	float sum[3] = { v.x(), v.y(), v.z() };
+	for (auto [it, i] = std::tuple{ this->components.begin(), 0 }; it != this->components.end(); ++it, ++i)
+		sum[i] += (*it);
+
+	return Vec3<float>(sum[0], sum[1], sum[2]);
 }

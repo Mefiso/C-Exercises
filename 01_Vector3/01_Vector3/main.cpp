@@ -1,6 +1,5 @@
 ﻿#include <iostream>
 #include "vector3.h"
-#include "vector3.cpp"
 
 template<class T>
 void print_vec(const Vec3<T>& v, std::string name);
@@ -40,7 +39,6 @@ int main(int argc, char* argv[])
 
 	Vec3<int> e = a + b;
 	print_vec(e, "e");
-
 
 }
 

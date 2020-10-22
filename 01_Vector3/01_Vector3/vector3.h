@@ -18,7 +18,7 @@ public:
 	T dot_product(const Vec3<T> &v) const;
 	Vec3<T> cross_product(const Vec3<T> &v) const;
 	double angle_between(const Vec3<T> &v) const;
-	inline double length() const;
+	inline double length() const { return sqrt((double)this->dot_product(*this)); };
 
 	// Components getters and setters
 	inline T x() const { return components[0]; }
