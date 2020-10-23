@@ -1,6 +1,5 @@
 ﻿#include <iostream>
 #include "vector3.h"
-#include "vector3.cpp"
 
 template<class T>
 void print_vec(const Vec3<T>& v, std::string name);
@@ -9,9 +8,9 @@ int main(int argc, char* argv[])
 {
 	Vec3<int> a;
 
-	a.set_x(1);
-	a.set_y(3);
-	a.set_z(1);
+	a.x = 1;
+	a.y = 3;
+	a.z = 1;
 	print_vec(a, "a");
 	std::cout << a.length() << std::endl;
 
@@ -47,6 +46,6 @@ int main(int argc, char* argv[])
 template<class T>
 void print_vec(const Vec3<T>& v, std::string name)
 {
-	std::cout << name << ": (" << v.x() << "," << v.y() << "," << v.z() << ")" << std::endl;
+	std::cout << name << ": (" << v.x << "," << v.y << "," << v.z << ")" << std::endl;
 }
 
