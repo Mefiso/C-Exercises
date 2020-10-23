@@ -38,7 +38,7 @@ public:
 
 		return (float) acos(cosinus);
 	}
-	inline float length() const { return (float)sqrt((double)this->dot_product(*this)); }
+	float length() const { return (float)sqrt((double)this->dot_product(*this)); }
 
 	// Component member
 	T x;
@@ -46,8 +46,8 @@ public:
 	T z;
 
 	// Operator overload
-	Vec3<T> operator+ (const Vec3<T>& v) { return Vec3<T>(this->x + v.x, this->y + v.y, this->z + v.z); }
-	Vec3<T> operator- (const Vec3<T>& v) { return Vec3<T>(this->x - v.x, this->y - v.y, this->z - v.z); }
+	Vec3<T> operator+ (const Vec3<T>& v) const { return Vec3<T>(this->x + v.x, this->y + v.y, this->z + v.z); }
+	Vec3<T> operator- (const Vec3<T>& v) const { return Vec3<T>(this->x - v.x, this->y - v.y, this->z - v.z); }
 
 };
 
