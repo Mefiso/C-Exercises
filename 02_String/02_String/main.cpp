@@ -1,13 +1,28 @@
+#ifdef _DEBUG
+#define MYDEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__)
+#endif // _DEBUG
+
+#define _CRTDBG_MAP_ALLOC
+#include <cstdlib>
+#include <crtdbg.h>
+
+#ifdef _DEBUG
+#define new MYDEBUG_NEW
+#endif
+
+void DumpLeaks(void)
+{
+	_CrtDumpMemoryLeaks(); // show leaks with file and line where allocation was made
+}
+
+
 #include <iostream>
 #include "my_string.h"
-
-String GetMeAString() { 
-	String tmp("another string");
-	return tmp; 
-}
+#include "Utility.h"
 
 int main(int argc, char* argv[])
 {
+	atexit(DumpLeaks);
 	String a("hello");
 	String b("gg");
 	String c(b);
